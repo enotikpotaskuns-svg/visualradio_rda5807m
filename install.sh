@@ -8,9 +8,13 @@ echo "[ 1/5 ] Установка системных зависимостей и 
 sudo apt update
 sudo apt install -y git build-essential linux-headers-$(uname -r) python3-tk python3-pip python3-venv i2c-tools
 
-echo "[ 2/5 ] Компиляция и фиксация I2C-драйвера CH341A..."
-cd driver_source
+echo "[ 2/5 ] Скачивание, компиляция и фиксация I2C-драйвера CH341A..."
+# Качаем исходники драйвера во временную папку, чтобы не зависеть от структуры репозитория
+rm -rf /tmp/ch341-driver
+git clone https://github.com /tmp/ch341-driver
+cd /tmp/ch341-driver
 make
+
 sudo mkdir -p /lib/modules/$(uname -r)/kernel/drivers/i2c/busses/
 sudo cp ./ch341-core.ko /lib/modules/$(uname -r)/kernel/drivers/i2c/busses/
 sudo cp ./i2c-ch341.ko /lib/modules/$(uname -r)/kernel/drivers/i2c/busses/
@@ -30,7 +34,10 @@ echo "blacklist ch341" | sudo tee /etc/modprobe.d/blacklist-ch341.conf
 # Прописываем udev-правило для автоподхвата при переподключении USB
 echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="5512", ACTION=="add", RUN+="/sbin/modprobe i2c-ch341"' | sudo tee /etc/udev/rules.d/99-ch341-i2c.rules
 sudo udevadm control --reload-rules && sudo udevadm trigger
-cd ..
+
+# Возвращаемся обратно в папку проекта и чистим за собой временные файлы
+cd -
+rm -rf /tmp/ch341-driver
 
 echo "[ 3/5 ] Создание изолированного окружения Python..."
 python3 -m venv venv
@@ -53,6 +60,6 @@ sudo modprobe i2c-ch341 || true
 
 echo "=========================================================="
 echo "[ УСПЕХ ] Установка завершена!"
-echo "1. ВЫНЬТЕ и снова ВСТАВЬТЕ программатор CH341A."
+echo "1. ВЫТАНУ И СНОВА ВСТАВЬТЕ USB-кабель программатора CH341A."
 echo "2. Теперь вы можете запускать радио командой: visualradio"
 echo "=========================================================="

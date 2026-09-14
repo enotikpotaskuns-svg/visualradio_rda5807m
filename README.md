@@ -23,7 +23,7 @@
 ## 🚀 Установка в один клик:
 ```bash
 git clone https://github.com/enotikpotaskuns-svg/visualradio_rda5807m
-cd visual-radio-ch341a
+cd visualradio_rda5807m
 ./install.sh
 ```
 После установки переподключите USB-кабель и введите в любой папке: `visualradio`
