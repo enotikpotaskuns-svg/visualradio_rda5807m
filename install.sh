@@ -12,7 +12,7 @@ echo "[ 2/5 ] Скачивание, компиляция и фиксация I2C
 # Качаем исходники драйвера во временную папку, чтобы не зависеть от структуры репозитория
 rm -rf /tmp/ch341-driver
 git clone https://github.com/frank-zago/ch341-i2c-spi-gpio
-cd /tmp/ch341-driver
+cd /tmp/ch341-i2c-spi-gpio
 make
 
 sudo mkdir -p /lib/modules/$(uname -r)/kernel/drivers/i2c/busses/
