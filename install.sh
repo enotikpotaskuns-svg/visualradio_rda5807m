@@ -10,7 +10,7 @@ sudo apt install -y git build-essential linux-headers-$(uname -r) python3-tk pyt
 
 echo "[ 2/5 ] Скачивание, компиляция и фиксация I2C-драйвера CH341A..."
 # Качаем исходники драйвера во временную папку, чтобы не зависеть от структуры репозитория
-rm -rf /tmp/ch341-driver
+rm -rf /tmp/ch341-i2c-spi-gpio
 git clone https://github.com/frank-zago/ch341-i2c-spi-gpio
 cd /tmp/ch341-i2c-spi-gpio
 make
