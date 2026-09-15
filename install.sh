@@ -3,7 +3,7 @@
 # Останавливать скрипт при любой ошибке
 set -e
 
-echo "=== НАЧАЛО АВТОМАТИЧЕСКОЙ УСТАНОВКИ VISUALRADIO ==="
+echo "=== НАЧАЛО АВТОМАТИЧЕСКОЙ УСТАНОВКИ VISUAL RADIO ==="
 echo "[ 1/5 ] Установка системных зависимостей и утилит сборки..."
 sudo apt update
 sudo apt install -y git build-essential linux-headers-$(uname -r) python3-tk python3-pip python3-venv i2c-tools
@@ -44,7 +44,7 @@ python3 -m venv venv
 ./venv/bin/pip install --upgrade pip
 ./venv/bin/pip install smbus2
 
-echo "[ 4/5 ] Создание консольной команды 'visualradio'..."
+echo "[ 4/5 ] Создание глобальной консольной команды 'visualradio'..."
 CURRENT_DIR=$(pwd)
 cat << 'INNER_EOF' | sudo tee /usr/local/bin/visualradio
 #!/bin/bash
@@ -60,6 +60,6 @@ sudo modprobe i2c-ch341 || true
 
 echo "=========================================================="
 echo "[ УСПЕХ ] Установка завершена!"
-echo "1. ПЕРЕДЁРНИ CH341A."
+echo "1. ВЫТАЩИТЕ И СНОВА ВСТАВЬТЕ USB-кабель программатора CH341A."
 echo "2. Теперь вы можете запускать радио командой: visualradio"
 echo "=========================================================="
