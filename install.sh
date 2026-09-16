@@ -46,12 +46,18 @@ python3 -m venv venv
 
 echo "[ 4/5 ] Создание глобальной консольной команды 'visualradio'..."
 CURRENT_DIR=$(pwd)
-cat << 'INNER_EOF' | sudo tee /usr/local/bin/visualradio
+# Удаляем старый битый файл, если он остался
+sudo rm -f /usr/local/bin/visualradio
+
+# Пишем скрипт-обертку, принудительно подставляя вычисленный путь текстом
+sudo tee /usr/local/bin/visualradio << EXTRAEOF
 #!/bin/bash
-cd '$CURRENT_DIR'
-sudo ./venv/bin/python radio_gui.py "$@"
-INNER_EOF
+cd $CURRENT_DIR
+sudo ./venv/bin/python radio_gui.py "\$@"
+EXTRAEOF
+
 sudo chmod +x /usr/local/bin/visualradio
+
 
 echo "[ 5/5 ] Принудительная перезагрузка модулей..."
 sudo rmmod i2c-ch341 ch341-core 2>/dev/null || true
